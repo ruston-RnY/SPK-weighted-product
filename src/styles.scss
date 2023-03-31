@@ -130,6 +130,16 @@ main {
     font-weight: 600;
   }
 
+  .btn-delete {
+    background-color: #df1a1a;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    text-transform: capitalize;
+  }
+
   label {
     display: block;
     margin-bottom: 4px;

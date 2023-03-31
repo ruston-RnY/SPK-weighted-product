@@ -211,8 +211,6 @@ export class AppComponent {
       }
     }
     this.alternatifPerKriteriaForm.reset();
-
-    console.log(this.typeInput);
   }
 
   hitungNilaiSdanV() {

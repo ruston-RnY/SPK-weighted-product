@@ -64,7 +64,12 @@
                       <td>{{ alt.kode }}</td>
                       <td>{{ alt.namaAlternatif }}</td>
                       <td>
-                        <button (click)="hapusAlternatif(altIdx)">hapus</button>
+                        <button
+                          class="btn-delete"
+                          (click)="hapusAlternatif(altIdx)"
+                        >
+                          hapus
+                        </button>
                       </td>
                     </tr>
                   </ng-container>
@@ -154,7 +159,12 @@
                         }}
                       </td>
                       <td>
-                        <button (click)="hapusKriteria(altIdx)">hapus</button>
+                        <button
+                          class="btn-delete"
+                          (click)="hapusKriteria(altIdx)"
+                        >
+                          hapus
+                        </button>
                       </td>
                     </tr>
                     <tr>
@@ -261,7 +271,7 @@
                       [(ngModel)]="typeInput"
                       [ngModelOptions]="{ standalone: true }"
                     />
-                    Select
+                    <span style="margin-top: 3px">Dropdown</span>
                   </div>
                   <div class="flex items-center">
                     <input
@@ -270,7 +280,7 @@
                       [(ngModel)]="typeInput"
                       [ngModelOptions]="{ standalone: true }"
                     />
-                    Number
+                    <span style="margin-top: 3px">Number</span>
                   </div>
                 </div>
               </div>
@@ -416,7 +426,14 @@
               </div>
             </div>
 
-            <div class="mb-4 mt-4" *ngIf="isShowRank">
+            <div
+              class="mb-4 mt-4"
+              *ngIf="
+                isShowRank &&
+                alternatifPerhitunganS.length > 0 &&
+                alternatifPerhitunganV.length > 0
+              "
+            >
               <div class="text-center mb-5">
                 <button
                   type="button"
