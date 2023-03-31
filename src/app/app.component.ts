@@ -13,20 +13,26 @@ import {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'penghitungan-spk-weight-product';
-
   public navigation = [
     {
-      id: 1,
+      step: 1,
       name: 'Alternatif',
     },
     {
-      id: 2,
+      step: 2,
       name: 'Kriteria',
     },
     {
-      id: 3,
-      name: 'Bobot',
+      step: 3,
+      name: 'Bobot Kepentingan',
+    },
+    {
+      step: 4,
+      name: 'Penilaian Alternatif',
+    },
+    {
+      step: 5,
+      name: 'Perhitungan',
     },
   ];
 
@@ -46,9 +52,14 @@ export class AppComponent {
   public alternatifPerKriteriaForm!: FormGroup;
 
   public totalKriteria: number = 0;
+  public totalBobotKepentingan: number = 0;
   public isClicked: boolean = false;
   public isShowRank: boolean = false;
   private tempRank: any = [];
+
+  public step: any = 1;
+  public typeInput: any;
+  public today = new Date();
 
   constructor(private fb: FormBuilder) {
     this.alternatifForm = this.fb.group({
@@ -71,6 +82,7 @@ export class AppComponent {
   ngOnInit(): void {}
 
   navigate(id: number) {
+    this.step = id;
     console.log(id);
   }
 
@@ -136,6 +148,10 @@ export class AppComponent {
 
     this.bobotPerKriteria = arr;
 
+    this.totalBobotKepentingan = this.bobotPerKriteria
+      .map((item: any) => item.value)
+      .reduce((prev: any, curr: any) => prev + curr, 0);
+
     if (this.alternatif.length > 0 && this.kriteria.length > 0) {
       this.isClicked = true;
     }
@@ -195,6 +211,8 @@ export class AppComponent {
       }
     }
     this.alternatifPerKriteriaForm.reset();
+
+    console.log(this.typeInput);
   }
 
   hitungNilaiSdanV() {

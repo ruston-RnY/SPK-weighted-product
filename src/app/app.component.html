@@ -1,371 +1,31 @@
 <main>
-  <section class="main-content">
-    <h1 class="title">
+  <div class="main"></div>
+  <div class="navbar">
+    <div class="nav-title">
+      <p class="text">
+        Sistem Perhitungan SPK Weighted Product -
+        {{ today | date : "d MMM yyyy, h:mm a" }}
+      </p>
+    </div>
+    <div class="title">
       Perhitungan SPK Menggunakan Metode Weighted Product (WP)
-    </h1>
-    <!-- <div style="margin-bottom: 2rem">
-      <h2>Penentuan Alternatif</h2>
-      <div class="content flex">
-        <div class="form-wrap">
-          <form [formGroup]="alternatifForm" class="form">
-            <div class="form-control">
-              <label for="">Kode</label>
-              <input type="text" formControlName="kode" />
-            </div>
-            <div class="form-control">
-              <label for="">Nama Alternatif</label>
-              <input type="text" formControlName="namaAlternatif" />
-            </div>
-            <button type="button" class="btn" (click)="tambahAlternatif()">
-              Tambah
-            </button>
-          </form>
-        </div>
-        <div class="right-content">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Kode</th>
-                  <th>Nama Alternatif</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container
-                  *ngIf="alternatif.length > 0; else alternatifEmpt"
-                >
-                  <tr *ngFor="let alt of alternatif; let altIdx = index">
-                    <td>{{ alt.kode }}</td>
-                    <td>{{ alt.namaAlternatif }}</td>
-                    <td>
-                      <button (click)="hapusAlternatif(altIdx)">hapus</button>
-                    </td>
-                  </tr>
-                </ng-container>
-                <ng-template #alternatifEmpt>
-                  <tr>
-                    <td colspan="3" style="text-align: center">
-                      Data tidak ada
-                    </td>
-                  </tr>
-                </ng-template>
-              </tbody>
-            </table>
-            <h5>Table.1 Menentukan Alternatif</h5>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <div style="margin-bottom: 2rem">
-      <h2>Penentuan Kriteria</h2>
-      <div class="content flex">
-        <div class="form-wrap">
-          <form [formGroup]="kriteriaForm" class="form">
-            <div class="form-control">
-              <label for="">Kode</label>
-              <input type="text" formControlName="kode" />
-            </div>
-            <div class="form-control">
-              <label for="">Nama Kriteria</label>
-              <input type="text" formControlName="namaKriteria" />
-            </div>
-            <div class="form-control">
-              <label for="">Tipe Kriteria</label>
-              <select formControlName="tipeKriteria">
-                <option value="cost">Cost</option>
-                <option value="benefit">Benefit</option>
-              </select>
-            </div>
-            <div class="form-control">
-              <label for="">Bobot Kriteria</label>
-              <select formControlName="bobotKriteria">
-                <option [ngValue]="1">1- Tidak Penting</option>
-                <option [ngValue]="2">2 - Kurang Penting</option>
-                <option [ngValue]="3">3 - Cukup Penting</option>
-                <option [ngValue]="4">4 - Penting</option>
-                <option [ngValue]="5">5 - Sangat Penting</option>
-              </select>
-            </div>
-            <button type="button" class="btn" (click)="tambahKriteria()">
-              Tambah
-            </button>
-          </form>
-        </div>
-        <div class="right-content">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Kode</th>
-                  <th>Nama</th>
-                  <th>Tipe</th>
-                  <th>Bobot</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngIf="kriteria.length > 0; else kriteriaEmpt">
-                  <tr *ngFor="let item of kriteria; let altIdx = index">
-                    <td>{{ item.kode }}</td>
-                    <td>{{ item.namaKriteria }}</td>
-                    <td>{{ item.tipeKriteria }}</td>
-                    <td>
-                      {{
-                        item.bobotKriteria == 1
-                          ? "1- Tidak Penting"
-                          : item.bobotKriteria == 2
-                          ? "2 - Kurang Penting"
-                          : item.bobotKriteria == 3
-                          ? "3 - Cukup Penting"
-                          : item.bobotKriteria == 4
-                          ? "4 - Penting"
-                          : "5 - Sangat Penting"
-                      }}
-                    </td>
-                    <td>
-                      <button (click)="hapusKriteria(altIdx)">hapus</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3">Total</td>
-                    <td>{{ totalKriteria }}</td>
-                    <td></td>
-                  </tr>
-                </ng-container>
-                <ng-template #kriteriaEmpt>
-                  <tr>
-                    <td colspan="5" style="text-align: center">
-                      Data tidak ada
-                    </td>
-                  </tr>
-                </ng-template>
-              </tbody>
-            </table>
-            <h5>Table.2 Menentukan Kriteria dan Bobot</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-bottom: 2rem">
-      <h2>Perhitungan Bobot Kepentingan</h2>
-      <div class="content">
-        <button type="button" class="btn" (click)="hitungBobotKepentingan()">
-          Hitung Bobot Kepentingan
-        </button>
-        <div
-          class="table-wrap mt-4"
-          *ngIf="bobotPerKriteria.length > 0 && alternatif.length > 0"
-        >
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Bobot Kepentingan</th>
-                <th *ngFor="let item of bobotPerKriteria">
-                  {{ item.kodeKriteria }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Bobot Kepentingan</td>
-                <td *ngFor="let item of bobotPerKriteria">{{ item.value }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <h5>Table.3 Perhitungan Bobot Kepentingan</h5>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-bottom: 2rem" *ngIf="isClicked">
-      <h2>Penilaian Matrix Alternatif/Kriteria</h2>
-      <div class="content flex">
-        <div class="form-wrap">
-          <form [formGroup]="alternatifPerKriteriaForm" class="form">
-            <div class="form-control">
-              <label>Alternatif</label>
-              <select formControlName="alternatif">
-                <option
-                  [value]="alt.namaAlternatif"
-                  *ngFor="let alt of alternatif"
-                >
-                  {{ alt.namaAlternatif }}
-                </option>
-              </select>
-            </div>
-            <div *ngFor="let item of kriteria" class="form-control">
-              <label for="">{{ item.kode }}</label>
-              <select [formControlName]="item.kode">
-                <option [ngValue]="1">1- Tidak Penting</option>
-                <option [ngValue]="2">2 - Kurang Penting</option>
-                <option [ngValue]="3">3 - Cukup Penting</option>
-                <option [ngValue]="4">4 - Penting</option>
-                <option [ngValue]="5">5 - Sangat Penting</option>
-              </select>
-              <input type="number" [formControlName]="item.kode" />
-            </div>
-            <button type="button" class="btn" (click)="tambahPenilaianMatrix()">
-              Tambah
-            </button>
-          </form>
-        </div>
-        <div class="right-content">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Alternatif / Kriteria</th>
-                  <th *ngFor="let item of kriteria">
-                    {{ item.kode }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container
-                  *ngIf="
-                    alternatifPerKriteria.length > 0;
-                    else alternatifPerkiteriaEmpt
-                  "
-                >
-                  <tr *ngFor="let item of alternatifPerKriteria">
-                    <td>{{ item.alternatif }}</td>
-                    <td *ngFor="let krit of item.kriteria">
-                      {{ krit.kriteriaAlternatifValue }}
-                    </td>
-                  </tr>
-                </ng-container>
-                <ng-template #alternatifPerkiteriaEmpt>
-                  <tr>
-                    <td colspan="100%" style="text-align: center">
-                      Data tidak ada
-                    </td>
-                  </tr>
-                </ng-template>
-              </tbody>
-            </table>
-            <h5>Table.4 Penilaian Matrix Alternatif/Kriteria</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <ng-container *ngIf="isClicked">
-      <div style="margin-bottom: 2rem">
-        <div class="content">
-          <h2>Perhitungan Nilai S dan Nilai V</h2>
-          <button type="button" class="btn" (click)="hitungNilaiSdanV()">
-            Hitung
-          </button>
-
-          <div class="flex">
-            <div class="w-half mr-4">
-              <h3 style="margin: 4px 0">Table Nilai S</h3>
-              <div class="table-wrap">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Alternatif</th>
-                      <th>Nilai S</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of alternatifPerhitunganS">
-                      <td>{{ item.namaAlternatif }}</td>
-                      <td>{{ item.nilaiS }}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Nilai S</td>
-                      <td>{{ totalPerhitunganS }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <h5>Table.5 Perhitungan Nilai S</h5>
-              </div>
-            </div>
-
-            <div class="w-half ml-4">
-              <h3 style="margin: 4px 0">Table Nilai V</h3>
-              <div class="table-wrap">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Alternatif</th>
-                      <th>Nilai V</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of alternatifPerhitunganV">
-                      <td>{{ item.namaAlternatif }}</td>
-                      <td>{{ item.nilaiV }}</td>
-                    </tr>
-                    <tr>
-                      <td>Total Nilai V</td>
-                      <td>{{ totalPerhitunganV }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <h5>Table.6 Perhitungan Nilai V</h5>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="margin-bottom: 6rem" *ngIf="isShowRank">
-        <div class="text-center">
-          <button type="button" class="btn btn-warn" (click)="lihatRangking()">
-            Lihat Rangking
-          </button>
-        </div>
-        <div class="content mt-4" *ngIf="rangking.length > 0">
-          <div class="table-wrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Alternatif / Kriteria</th>
-                  <th>Nilai V</th>
-                  <th>Rangking</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of rangking; let i = index">
-                  <td>{{ item.namaAlternatif }}</td>
-                  <td>{{ item.nilaiV }}</td>
-                  <td>{{ i + 1 }}</td>
-                </tr>
-              </tbody>
-            </table>
-            <h5>Table.6 Rangking</h5>
-          </div>
-          <div class="note">
-            <p>
-              Berdasarkan perhitungan SPK metode weighted product dan dari
-              kriteria yang ada, didapatkan hasil bahwa
-              <span>{{ rangking[0].namaAlternatif }}</span> menempati ranking
-              pertama dan merupakan alternatif terbaik
-            </p>
-            <button type="button" class="btn btn-red" (click)="hitungUlang()">
-              Hitung Ulang
-            </button>
-          </div>
-        </div>
-      </div>
-    </ng-container> -->
-
+  </div>
+  <section class="main-content">
     <div class="navigation">
       <div
         class="nav"
         *ngFor="let nav of navigation"
-        (click)="navigate(nav.id)"
+        [ngClass]="{ 'nav-active': step == nav.step }"
+        (click)="navigate(nav.step)"
       >
         {{ nav.name }}
       </div>
     </div>
-    <div class="content-wrap" id="1">
-      <div class="content flex">
+
+    <div class="content-wrap">
+      <!-- alternatif -->
+      <div class="content flex" *ngIf="step == 1">
         <div class="w-30">
           <div class="header">Buat Alternatif</div>
           <div class="form-wrap">
@@ -423,9 +83,393 @@
         </div>
       </div>
 
-      <div class="content flex" id="2">
-        <p>lorem</p>
+      <!-- kriteria -->
+      <div class="content flex" *ngIf="step == 2">
+        <div class="w-30">
+          <div class="header">Buat Kriteria</div>
+          <div class="form-wrap">
+            <form [formGroup]="kriteriaForm" class="form">
+              <div class="form-control">
+                <label for="">Kode</label>
+                <input type="text" formControlName="kode" />
+              </div>
+              <div class="form-control">
+                <label for="">Nama Kriteria</label>
+                <input type="text" formControlName="namaKriteria" />
+              </div>
+              <div class="form-control">
+                <label for="">Tipe Kriteria</label>
+                <select formControlName="tipeKriteria">
+                  <option value="cost">Cost</option>
+                  <option value="benefit">Benefit</option>
+                </select>
+              </div>
+              <div class="form-control">
+                <label for="">Bobot Kriteria</label>
+                <select formControlName="bobotKriteria">
+                  <option [ngValue]="1">1- Tidak Penting</option>
+                  <option [ngValue]="2">2 - Kurang Penting</option>
+                  <option [ngValue]="3">3 - Cukup Penting</option>
+                  <option [ngValue]="4">4 - Penting</option>
+                  <option [ngValue]="5">5 - Sangat Penting</option>
+                </select>
+              </div>
+              <button type="button" class="btn" (click)="tambahKriteria()">
+                Tambah
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="header">Data Kriteria</div>
+          <div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Nama</th>
+                    <th>Tipe</th>
+                    <th>Bobot</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngIf="kriteria.length > 0; else kriteriaEmpt">
+                    <tr *ngFor="let item of kriteria; let altIdx = index">
+                      <td>{{ item.kode }}</td>
+                      <td>{{ item.namaKriteria }}</td>
+                      <td>{{ item.tipeKriteria }}</td>
+                      <td>
+                        {{
+                          item.bobotKriteria == 1
+                            ? "1- Tidak Penting"
+                            : item.bobotKriteria == 2
+                            ? "2 - Kurang Penting"
+                            : item.bobotKriteria == 3
+                            ? "3 - Cukup Penting"
+                            : item.bobotKriteria == 4
+                            ? "4 - Penting"
+                            : "5 - Sangat Penting"
+                        }}
+                      </td>
+                      <td>
+                        <button (click)="hapusKriteria(altIdx)">hapus</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">Total</td>
+                      <td>{{ totalKriteria }}</td>
+                      <td></td>
+                    </tr>
+                  </ng-container>
+                  <ng-template #kriteriaEmpt>
+                    <tr>
+                      <td colspan="5" style="text-align: center">
+                        Data tidak ada
+                      </td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+              <h5>Table.2 Menentukan Kriteria dan Bobot</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bobot kepentingan -->
+      <div class="content flex" *ngIf="step == 3">
+        <div class="w-30">
+          <div class="header">Keterangan</div>
+          <div class="form-wrap">
+            <p class="desc">
+              Bobot kepentingan didapatkan dari bobot masing masing kriteria
+              yang dibagi dengan total bobot tabel kriteria
+            </p>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="header">Data Bobot Kepentingan</div>
+          <div>
+            <div class="ml-5 mt-4">
+              <button
+                type="button"
+                class="btn"
+                (click)="hitungBobotKepentingan()"
+              >
+                Hitung Bobot Kepentingan
+              </button>
+            </div>
+            <div
+              class="table-wrap"
+              *ngIf="bobotPerKriteria.length > 0 && alternatif.length > 0"
+            >
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Bobot Kepentingan</th>
+                    <th *ngFor="let item of bobotPerKriteria">
+                      {{ item.kodeKriteria }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Bobot Kepentingan</td>
+                    <td *ngFor="let item of bobotPerKriteria">
+                      {{ item.value }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Total</td>
+                    <td colspan="100%">{{ totalBobotKepentingan }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <h5>Table.3 Perhitungan Bobot Kepentingan</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- matrix penilaian alternatif -->
+      <div class="content flex" *ngIf="step == 4">
+        <div class="w-30">
+          <div class="header">Buat Penilaian</div>
+          <div class="form-wrap">
+            <form [formGroup]="alternatifPerKriteriaForm" class="form">
+              <div class="form-control">
+                <label>Alternatif</label>
+                <select formControlName="alternatif">
+                  <option
+                    [value]="alt.namaAlternatif"
+                    *ngFor="let alt of alternatif"
+                  >
+                    {{ alt.namaAlternatif }}
+                  </option>
+                </select>
+              </div>
+
+              <div class="form-control">
+                <label>Select Type Input</label>
+                <div class="flex select-type">
+                  <div class="flex items-center">
+                    <input
+                      type="radio"
+                      value="select"
+                      [(ngModel)]="typeInput"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    Select
+                  </div>
+                  <div class="flex items-center">
+                    <input
+                      type="radio"
+                      value="number"
+                      [(ngModel)]="typeInput"
+                      [ngModelOptions]="{ standalone: true }"
+                    />
+                    Number
+                  </div>
+                </div>
+              </div>
+
+              <ng-container *ngIf="typeInput">
+                <div *ngFor="let item of kriteria" class="form-control">
+                  <label class="text-capitalize">{{ item.kode }}</label>
+                  <select
+                    [formControlName]="item.kode"
+                    *ngIf="typeInput == 'select'"
+                  >
+                    <option [ngValue]="1">1- Tidak Penting</option>
+                    <option [ngValue]="2">2 - Kurang Penting</option>
+                    <option [ngValue]="3">3 - Cukup Penting</option>
+                    <option [ngValue]="4">4 - Penting</option>
+                    <option [ngValue]="5">5 - Sangat Penting</option>
+                  </select>
+                  <input
+                    type="number"
+                    [formControlName]="item.kode"
+                    *ngIf="typeInput == 'number'"
+                  />
+                </div>
+              </ng-container>
+
+              <button
+                type="button"
+                class="btn"
+                (click)="tambahPenilaianMatrix()"
+              >
+                Tambah
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="right-content">
+          <div class="header">Data Matrix Penilaian Alternatif</div>
+          <div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Alternatif / Kriteria</th>
+                    <th *ngFor="let item of kriteria">
+                      {{ item.kode }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container
+                    *ngIf="
+                      alternatifPerKriteria.length > 0;
+                      else alternatifPerkiteriaEmpt
+                    "
+                  >
+                    <tr *ngFor="let item of alternatifPerKriteria">
+                      <td>{{ item.alternatif }}</td>
+                      <td *ngFor="let krit of item.kriteria">
+                        {{ krit.kriteriaAlternatifValue }}
+                      </td>
+                    </tr>
+                  </ng-container>
+                  <ng-template #alternatifPerkiteriaEmpt>
+                    <tr>
+                      <td colspan="100%" style="text-align: center">
+                        Data tidak ada
+                      </td>
+                    </tr>
+                  </ng-template>
+                </tbody>
+              </table>
+              <h5>Table.4 Penilaian Matrix Alternatif/Kriteria</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- hitung nilai akhir (nilai s, nilai v, rangking) -->
+      <div class="content flex" *ngIf="step == 5">
+        <div class="w-full">
+          <div class="header">Perhitungan SPK Weighted Product</div>
+          <div class="form-wrap">
+            <div class="mb-4">
+              <button
+                type="button"
+                class="btn"
+                style="margin-top: 0"
+                (click)="hitungNilaiSdanV()"
+              >
+                Hitung Nilai S dan V
+              </button>
+
+              <div class="flex mt-4">
+                <div class="w-half mr-4 mt-3">
+                  <div class="header header-sm">Table Nilai S</div>
+                  <div class="">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Alternatif</th>
+                          <th>Nilai S</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of alternatifPerhitunganS">
+                          <td>{{ item.namaAlternatif }}</td>
+                          <td>{{ item.nilaiS }}</td>
+                        </tr>
+                        <tr>
+                          <td>Total Nilai S</td>
+                          <td>{{ totalPerhitunganS }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h5>Table.5 Perhitungan Nilai S</h5>
+                  </div>
+                </div>
+
+                <div class="w-half ml-4 mt-3">
+                  <div class="header header-sm">Table Nilai V</div>
+                  <div class="">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Alternatif</th>
+                          <th>Nilai V</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of alternatifPerhitunganV">
+                          <td>{{ item.namaAlternatif }}</td>
+                          <td>{{ item.nilaiV }}</td>
+                        </tr>
+                        <tr>
+                          <td>Total Nilai V</td>
+                          <td>{{ totalPerhitunganV }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h5>Table.6 Perhitungan Nilai V</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4 mt-4" *ngIf="isShowRank">
+              <div class="text-center mb-5">
+                <button
+                  type="button"
+                  class="btn btn-warn"
+                  (click)="lihatRangking()"
+                >
+                  Lihat Rangking
+                </button>
+              </div>
+
+              <div class="content" *ngIf="rangking.length > 0">
+                <div>
+                  <div class="header header-sm">Tabel Rangking</div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Alternatif / Kriteria</th>
+                        <th>Nilai V</th>
+                        <th>Rangking</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of rangking; let i = index">
+                        <td>{{ item.namaAlternatif }}</td>
+                        <td>{{ item.nilaiV }}</td>
+                        <td>{{ i + 1 }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <h5>Table.6 Rangking</h5>
+                </div>
+                <div class="note">
+                  <p>
+                    Berdasarkan perhitungan SPK metode weighted product dan dari
+                    kriteria yang ada, didapatkan hasil bahwa
+                    <span>{{ rangking[0].namaAlternatif }}</span> menempati
+                    ranking pertama dan merupakan alternatif terbaik
+                  </p>
+                  <button
+                    type="button"
+                    class="btn btn-red"
+                    (click)="hitungUlang()"
+                  >
+                    Hitung Ulang
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
+
+  <div class="footer text-center">&copy; Copyright 2023 - Ruston Efendi</div>
 </main>
