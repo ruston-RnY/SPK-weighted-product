@@ -15,6 +15,21 @@ import {
 export class AppComponent {
   title = 'penghitungan-spk-weight-product';
 
+  public navigation = [
+    {
+      id: 1,
+      name: 'Alternatif',
+    },
+    {
+      id: 2,
+      name: 'Kriteria',
+    },
+    {
+      id: 3,
+      name: 'Bobot',
+    },
+  ];
+
   public alternatif: any = [];
   public kriteria: any = [];
   public bobotPerKriteria: any = [];
@@ -54,6 +69,10 @@ export class AppComponent {
   }
 
   ngOnInit(): void {}
+
+  navigate(id: number) {
+    console.log(id);
+  }
 
   tambahAlternatif() {
     if (this.alternatifForm.valid) {
