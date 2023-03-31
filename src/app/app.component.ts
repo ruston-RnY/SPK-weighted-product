@@ -56,7 +56,7 @@ export class AppComponent {
   public isClicked: boolean = false;
   public isShowRank: boolean = false;
   private tempRank: any = [];
-
+  public alternatifSelected: any;
   public step: any = 1;
   public typeInput: any;
   public today = new Date();
@@ -75,7 +75,8 @@ export class AppComponent {
     });
 
     this.alternatifPerKriteriaForm = this.fb.group({
-      alternatif: ['', Validators.required],
+      kodeAlternatif: [''],
+      alternatif: [''],
     });
   }
 
@@ -83,7 +84,6 @@ export class AppComponent {
 
   navigate(id: number) {
     this.step = id;
-    console.log(id);
   }
 
   tambahAlternatif() {
@@ -165,8 +165,19 @@ export class AppComponent {
     });
   }
 
+  selectAlternatif(e: any) {
+    this.alternatifSelected = e;
+  }
+
   tambahPenilaianMatrix() {
     if (this.alternatifPerKriteriaForm.valid) {
+      this.alternatifPerKriteriaForm
+        .get('alternatif')
+        ?.setValue(this.alternatifSelected.namaAlternatif);
+      this.alternatifPerKriteriaForm
+        .get('kodeAlternatif')
+        ?.setValue(this.alternatifSelected.kode);
+
       var keyNames = Object.keys(this.alternatifPerKriteriaForm.value);
 
       const arrKriteria: any = [];
@@ -187,6 +198,7 @@ export class AppComponent {
 
       if (this.alternatifPerKriteria.length == 0) {
         const dataObj = {
+          kodeAlternatif: this.alternatifPerKriteriaForm.value.kodeAlternatif,
           alternatif: this.alternatifPerKriteriaForm.value.alternatif,
           kriteria: arrKriteria,
         };
@@ -202,6 +214,7 @@ export class AppComponent {
           alert('alternatif yang di pilih sudah ada');
         } else {
           const dataObj = {
+            kodeAlternatif: this.alternatifPerKriteriaForm.value.kodeAlternatif,
             alternatif: this.alternatifPerKriteriaForm.value.alternatif,
             kriteria: arrKriteria,
           };

@@ -32,7 +32,11 @@
             <form [formGroup]="alternatifForm" class="form">
               <div class="form-control">
                 <label for="">Kode</label>
-                <input type="text" formControlName="kode" />
+                <input
+                  type="text"
+                  formControlName="kode"
+                  class="text-uppercase"
+                />
               </div>
               <div class="form-control">
                 <label for="">Nama Alternatif</label>
@@ -96,7 +100,11 @@
             <form [formGroup]="kriteriaForm" class="form">
               <div class="form-control">
                 <label for="">Kode</label>
-                <input type="text" formControlName="kode" />
+                <input
+                  type="text"
+                  formControlName="kode"
+                  class="text-uppercase"
+                />
               </div>
               <div class="form-control">
                 <label for="">Nama Kriteria</label>
@@ -251,11 +259,12 @@
             <form [formGroup]="alternatifPerKriteriaForm" class="form">
               <div class="form-control">
                 <label>Alternatif</label>
-                <select formControlName="alternatif">
-                  <option
-                    [value]="alt.namaAlternatif"
-                    *ngFor="let alt of alternatif"
-                  >
+                <select
+                  (ngModelChange)="selectAlternatif($event)"
+                  [(ngModel)]="alternatifSelected"
+                  [ngModelOptions]="{ standalone: true }"
+                >
+                  <option [ngValue]="alt" *ngFor="let alt of alternatif">
                     {{ alt.namaAlternatif }}
                   </option>
                 </select>
@@ -323,6 +332,7 @@
               <table class="table">
                 <thead>
                   <tr>
+                    <th>Kode Alternatif</th>
                     <th>Alternatif / Kriteria</th>
                     <th *ngFor="let item of kriteria">
                       {{ item.kode }}
@@ -337,6 +347,7 @@
                     "
                   >
                     <tr *ngFor="let item of alternatifPerKriteria">
+                      <td>{{ item.kodeAlternatif }}</td>
                       <td>{{ item.alternatif }}</td>
                       <td *ngFor="let krit of item.kriteria">
                         {{ krit.kriteriaAlternatifValue }}
@@ -463,7 +474,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <h5>Table.6 Rangking</h5>
+                  <h5>Table.7 Rangking</h5>
                 </div>
                 <div class="note">
                   <p>
