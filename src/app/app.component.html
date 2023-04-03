@@ -7,11 +7,11 @@
         {{ today | date : "d MMM yyyy, h:mm a" }}
       </p>
     </div>
+  </div>
+  <section class="main-content">
     <div class="title">
       Perhitungan SPK Menggunakan Metode Weighted Product (WP)
     </div>
-  </div>
-  <section class="main-content">
     <div class="navigation">
       <div
         class="nav"
@@ -332,7 +332,6 @@
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Kode Alternatif</th>
                     <th>Alternatif / Kriteria</th>
                     <th *ngFor="let item of kriteria">
                       {{ item.kode }}
@@ -347,8 +346,7 @@
                     "
                   >
                     <tr *ngFor="let item of alternatifPerKriteria">
-                      <td>{{ item.kodeAlternatif }}</td>
-                      <td>{{ item.alternatif }}</td>
+                      <td>{{ item.alternatif }} ({{ item.kodeAlternatif }})</td>
                       <td *ngFor="let krit of item.kriteria">
                         {{ krit.kriteriaAlternatifValue }}
                       </td>
