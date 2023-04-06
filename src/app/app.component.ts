@@ -87,8 +87,21 @@ export class AppComponent {
   }
 
   tambahAlternatif() {
+    this.alternatifForm.markAllAsTouched();
     if (this.alternatifForm.valid) {
-      this.alternatif.push(this.alternatifForm.value);
+      if (this.alternatif.length == 0) {
+        this.alternatif.push(this.alternatifForm.value);
+      } else {
+        const exist = this.alternatif.find(
+          (item: any) => item.kode == this.alternatifForm.value.kode
+        );
+
+        if (exist) {
+          alert('Kode alternatif sudah ada');
+        } else {
+          this.alternatif.push(this.alternatifForm.value);
+        }
+      }
 
       this.alternatifForm.reset();
     }
@@ -102,6 +115,7 @@ export class AppComponent {
   }
 
   tambahKriteria() {
+    this.kriteriaForm.markAllAsTouched();
     if (this.kriteriaForm.valid) {
       this.kriteria.push(this.kriteriaForm.value);
 
@@ -170,7 +184,7 @@ export class AppComponent {
   }
 
   tambahPenilaianMatrix() {
-    if (this.alternatifPerKriteriaForm.valid) {
+    if (this.alternatifPerKriteriaForm.valid && this.alternatifSelected) {
       this.alternatifPerKriteriaForm
         .get('alternatif')
         ?.setValue(this.alternatifSelected.namaAlternatif);

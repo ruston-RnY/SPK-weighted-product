@@ -15,11 +15,11 @@
     <div class="navigation">
       <div
         class="nav"
-        *ngFor="let nav of navigation"
+        *ngFor="let nav of navigation; let i = index"
         [ngClass]="{ 'nav-active': step == nav.step }"
         (click)="navigate(nav.step)"
       >
-        {{ nav.name }}
+        {{ i + 1 }}. {{ nav.name }}
       </div>
     </div>
 
@@ -36,11 +36,40 @@
                   type="text"
                   formControlName="kode"
                   class="text-uppercase"
+                  [ngClass]="{
+                    'border-warning':
+                      alternatifForm.controls['kode'].errors &&
+                      alternatifForm.controls['kode'].touched
+                  }"
                 />
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    alternatifForm.controls['kode'].errors &&
+                    alternatifForm.controls['kode'].touched
+                  "
+                  >Kode alternatif harus diisi</span
+                >
               </div>
               <div class="form-control">
                 <label for="">Nama Alternatif</label>
-                <input type="text" formControlName="namaAlternatif" />
+                <input
+                  type="text"
+                  formControlName="namaAlternatif"
+                  [ngClass]="{
+                    'border-warning':
+                      alternatifForm.controls['namaAlternatif'].errors &&
+                      alternatifForm.controls['namaAlternatif'].touched
+                  }"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    alternatifForm.controls['namaAlternatif'].errors &&
+                    alternatifForm.controls['namaAlternatif'].touched
+                  "
+                  >Nama alternatif harus diisi</span
+                >
               </div>
               <button type="button" class="btn" (click)="tambahAlternatif()">
                 Tambah
@@ -104,28 +133,87 @@
                   type="text"
                   formControlName="kode"
                   class="text-uppercase"
+                  [ngClass]="{
+                    'border-warning':
+                      kriteriaForm.controls['kode'].errors &&
+                      kriteriaForm.controls['kode'].touched
+                  }"
                 />
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    kriteriaForm.controls['kode'].errors &&
+                    kriteriaForm.controls['kode'].touched
+                  "
+                  >Kode kriteria harus diisi</span
+                >
               </div>
               <div class="form-control">
                 <label for="">Nama Kriteria</label>
-                <input type="text" formControlName="namaKriteria" />
+                <input
+                  type="text"
+                  formControlName="namaKriteria"
+                  [ngClass]="{
+                    'border-warning':
+                      kriteriaForm.controls['namaKriteria'].errors &&
+                      kriteriaForm.controls['namaKriteria'].touched
+                  }"
+                />
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    kriteriaForm.controls['namaKriteria'].errors &&
+                    kriteriaForm.controls['namaKriteria'].touched
+                  "
+                  >Nama kriteria harus diisi</span
+                >
               </div>
               <div class="form-control">
                 <label for="">Tipe Kriteria</label>
-                <select formControlName="tipeKriteria">
+                <select
+                  formControlName="tipeKriteria"
+                  [ngClass]="{
+                    'border-warning':
+                      kriteriaForm.controls['tipeKriteria'].errors &&
+                      kriteriaForm.controls['tipeKriteria'].touched
+                  }"
+                >
                   <option value="cost">Cost</option>
                   <option value="benefit">Benefit</option>
                 </select>
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    kriteriaForm.controls['tipeKriteria'].errors &&
+                    kriteriaForm.controls['tipeKriteria'].touched
+                  "
+                  >Tipe kriteria harus diisi</span
+                >
               </div>
               <div class="form-control">
                 <label for="">Bobot Kriteria</label>
-                <select formControlName="bobotKriteria">
+                <select
+                  formControlName="bobotKriteria"
+                  [ngClass]="{
+                    'border-warning':
+                      kriteriaForm.controls['bobotKriteria'].errors &&
+                      kriteriaForm.controls['bobotKriteria'].touched
+                  }"
+                >
                   <option [ngValue]="1">1- Tidak Penting</option>
                   <option [ngValue]="2">2 - Kurang Penting</option>
                   <option [ngValue]="3">3 - Cukup Penting</option>
                   <option [ngValue]="4">4 - Penting</option>
                   <option [ngValue]="5">5 - Sangat Penting</option>
                 </select>
+                <span
+                  class="text-danger"
+                  *ngIf="
+                    kriteriaForm.controls['bobotKriteria'].errors &&
+                    kriteriaForm.controls['bobotKriteria'].touched
+                  "
+                  >Bobot kriteria harus diisi</span
+                >
               </div>
               <button type="button" class="btn" (click)="tambahKriteria()">
                 Tambah

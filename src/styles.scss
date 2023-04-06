@@ -81,6 +81,16 @@ h5 {
   align-items: center;
 }
 
+.text-danger {
+  color: #df1a1a;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.border-warning {
+  border: 1px solid #df1a1a;
+}
+
 .main {
   background-image: url(assets/image/bg.jpg);
   background-position: center;
@@ -230,7 +240,6 @@ main {
     right: 0;
     bottom: 0;
     background-color: #212c5f;
-    // background-color: rgb(255 153 0);
     padding: 8px;
     color: #ffff;
     font-size: 12px;
@@ -243,12 +252,6 @@ main {
     font-weight: 700;
     padding: 18px;
     color: #212c5f;
-    // background: linear-gradient(
-    //   180deg,
-    //   rgb(244, 244, 244) 0,
-    //   rgb(255, 255, 255) 76%,
-    //   rgb(241 241 241) 100%
-    // );
     margin-bottom: 1.5rem;
   }
 
