@@ -60,6 +60,10 @@ export class AppComponent {
   public step: any = 1;
   public typeInput: any;
   public today = new Date();
+  public isAlternatifEdit: boolean = false;
+  public isKriteriaEdit: boolean = false;
+  private alternatifEditSelected: any;
+  private kriteriaEditSelected: any;
 
   constructor(private fb: FormBuilder) {
     this.alternatifForm = this.fb.group({
@@ -89,22 +93,41 @@ export class AppComponent {
   tambahAlternatif() {
     this.alternatifForm.markAllAsTouched();
     if (this.alternatifForm.valid) {
-      if (this.alternatif.length == 0) {
-        this.alternatif.push(this.alternatifForm.value);
+      if (this.isAlternatifEdit) {
+        this.alternatif[this.alternatifEditSelected] =
+          this.alternatifForm.value;
       } else {
-        const exist = this.alternatif.find(
-          (item: any) => item.kode == this.alternatifForm.value.kode
-        );
-
-        if (exist) {
-          alert('Kode alternatif sudah ada');
-        } else {
+        if (this.alternatif.length == 0) {
           this.alternatif.push(this.alternatifForm.value);
+        } else {
+          const exist = this.alternatif.find(
+            (item: any) => item.kode == this.alternatifForm.value.kode
+          );
+
+          if (exist) {
+            alert('Kode alternatif sudah ada');
+          } else {
+            this.alternatif.push(this.alternatifForm.value);
+          }
         }
       }
 
       this.alternatifForm.reset();
+      this.isAlternatifEdit = false;
     }
+  }
+
+  editAlternatif(idx: number) {
+    this.alternatifEditSelected = idx;
+    this.isAlternatifEdit = true;
+    const selected = this.alternatif.filter(
+      (item: any, i: number) => i == idx
+    )[0];
+
+    this.alternatifForm.get('kode')?.setValue(selected.kode);
+    this.alternatifForm
+      .get('namaAlternatif')
+      ?.setValue(selected.namaAlternatif);
   }
 
   hapusAlternatif(idx: number) {
@@ -117,9 +140,26 @@ export class AppComponent {
   tambahKriteria() {
     this.kriteriaForm.markAllAsTouched();
     if (this.kriteriaForm.valid) {
-      this.kriteria.push(this.kriteriaForm.value);
+      if (this.isKriteriaEdit) {
+        this.kriteria[this.kriteriaEditSelected] = this.kriteriaForm.value;
+      } else {
+        if (this.kriteria.length == 0) {
+          this.kriteria.push(this.kriteriaForm.value);
+        } else {
+          const exist = this.kriteria.find(
+            (item: any) => item.kode == this.kriteriaForm.value.kode
+          );
+
+          if (exist) {
+            alert('Kode kriteria sudah ada');
+          } else {
+            this.kriteria.push(this.kriteriaForm.value);
+          }
+        }
+      }
 
       this.kriteriaForm.reset();
+      this.isKriteriaEdit = false;
     }
 
     this.totalKriteria = this.kriteria
@@ -128,6 +168,19 @@ export class AppComponent {
 
     this.bobotPerKriteria = [];
     this.isClicked = false;
+  }
+
+  editKriteria(idx: number) {
+    this.kriteriaEditSelected = idx;
+    this.isKriteriaEdit = true;
+    const selected = this.kriteria.filter(
+      (item: any, i: number) => i == idx
+    )[0];
+
+    this.kriteriaForm.get('kode')?.setValue(selected.kode);
+    this.kriteriaForm.get('namaKriteria')?.setValue(selected.namaKriteria);
+    this.kriteriaForm.get('tipeKriteria')?.setValue(selected.tipeKriteria);
+    this.kriteriaForm.get('bobotKriteria')?.setValue(selected.bobotKriteria);
   }
 
   hapusKriteria(idx: number) {

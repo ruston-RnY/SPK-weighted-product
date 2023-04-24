@@ -143,6 +143,17 @@ main {
     font-weight: 600;
   }
 
+  .btn-edit {
+    background-color: #19bf22;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: white;
+    padding: 4px 8px;
+    text-transform: capitalize;
+    margin-right: 8px;
+  }
+
   .btn-delete {
     background-color: #df1a1a;
     border: none;
@@ -150,6 +161,19 @@ main {
     border-radius: 4px;
     color: white;
     padding: 4px 8px;
+    text-transform: capitalize;
+  }
+
+  .btn-cancel {
+    background-color: #a1a1a1;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    margin-top: 6px;
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
     text-transform: capitalize;
   }
 

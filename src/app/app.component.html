@@ -72,7 +72,15 @@
                 >
               </div>
               <button type="button" class="btn" (click)="tambahAlternatif()">
-                Tambah
+                {{ isAlternatifEdit ? "Edit" : "Tambah" }}
+              </button>
+              <button
+                type="button"
+                class="btn-cancel"
+                (click)="isAlternatifEdit = false; alternatifForm.reset()"
+                *ngIf="isAlternatifEdit"
+              >
+                Batal
               </button>
             </form>
           </div>
@@ -97,6 +105,12 @@
                       <td>{{ alt.kode }}</td>
                       <td>{{ alt.namaAlternatif }}</td>
                       <td>
+                        <button
+                          class="btn-edit"
+                          (click)="editAlternatif(altIdx)"
+                        >
+                          Edit
+                        </button>
                         <button
                           class="btn-delete"
                           (click)="hapusAlternatif(altIdx)"
@@ -216,7 +230,15 @@
                 >
               </div>
               <button type="button" class="btn" (click)="tambahKriteria()">
-                Tambah
+                {{ isKriteriaEdit ? "Edit" : "Tambah" }}
+              </button>
+              <button
+                type="button"
+                class="btn-cancel"
+                (click)="isKriteriaEdit = false; kriteriaForm.reset()"
+                *ngIf="isKriteriaEdit"
+              >
+                Batal
               </button>
             </form>
           </div>
@@ -255,6 +277,9 @@
                         }}
                       </td>
                       <td>
+                        <button class="btn-edit" (click)="editKriteria(altIdx)">
+                          Edit
+                        </button>
                         <button
                           class="btn-delete"
                           (click)="hapusKriteria(altIdx)"
