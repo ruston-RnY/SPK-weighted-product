@@ -358,50 +358,10 @@
                 </select>
               </div>
 
-              <div class="form-control">
-                <label>Select Type Input</label>
-                <div class="flex select-type">
-                  <div class="flex items-center">
-                    <input
-                      type="radio"
-                      value="select"
-                      [(ngModel)]="typeInput"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
-                    <span style="margin-top: 3px">Dropdown</span>
-                  </div>
-                  <div class="flex items-center">
-                    <input
-                      type="radio"
-                      value="number"
-                      [(ngModel)]="typeInput"
-                      [ngModelOptions]="{ standalone: true }"
-                    />
-                    <span style="margin-top: 3px">Number</span>
-                  </div>
-                </div>
+              <div *ngFor="let item of kriteria" class="form-control">
+                <label class="text-capitalize">{{ item.kode }}</label>
+                <input type="number" [formControlName]="item.kode" />
               </div>
-
-              <ng-container *ngIf="typeInput">
-                <div *ngFor="let item of kriteria" class="form-control">
-                  <label class="text-capitalize">{{ item.kode }}</label>
-                  <select
-                    [formControlName]="item.kode"
-                    *ngIf="typeInput == 'select'"
-                  >
-                    <option [ngValue]="1">1- Tidak Penting</option>
-                    <option [ngValue]="2">2 - Kurang Penting</option>
-                    <option [ngValue]="3">3 - Cukup Penting</option>
-                    <option [ngValue]="4">4 - Penting</option>
-                    <option [ngValue]="5">5 - Sangat Penting</option>
-                  </select>
-                  <input
-                    type="number"
-                    [formControlName]="item.kode"
-                    *ngIf="typeInput == 'number'"
-                  />
-                </div>
-              </ng-container>
 
               <button
                 type="button"
@@ -547,13 +507,15 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Alternatif / Kriteria</th>
+                        <th>Kode Alternatif</th>
+                        <th>Nama Alternatif</th>
                         <th>Nilai V</th>
                         <th>Rangking</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of rangking; let i = index">
+                        <td>{{ item.kodeAlternatif }}</td>
                         <td>{{ item.namaAlternatif }}</td>
                         <td>{{ item.nilaiV }}</td>
                         <td>{{ i + 1 }}</td>
@@ -585,5 +547,7 @@
     </div>
   </section>
 
-  <div class="footer text-center">&copy; Copyright 2023 - Ruston Efendi</div>
+  <div class="footer text-center">
+    &copy; Copyright 2023 - All Right Reserved
+  </div>
 </main>

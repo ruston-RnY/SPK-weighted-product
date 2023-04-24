@@ -259,6 +259,7 @@ export class AppComponent {
         );
       });
       const obj = {
+        kodeAlternatif: this.alternatifPerKriteria[outerIndex].kodeAlternatif,
         namaAlternatif: this.alternatifPerKriteria[outerIndex].alternatif,
         nilaiS: Math.round(value * 100) / 100,
       };
@@ -278,6 +279,7 @@ export class AppComponent {
       const valueV = element.nilaiS / totalNilaiS;
 
       const obj = {
+        kodeAlternatif: element.kodeAlternatif,
         namaAlternatif: element.namaAlternatif,
         nilaiV: Math.round(valueV * 100) / 100,
       };
