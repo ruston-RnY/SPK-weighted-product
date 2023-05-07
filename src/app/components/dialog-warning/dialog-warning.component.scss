@@ -42,6 +42,10 @@
 
       .dialog-content {
         text-align: center;
+        p {
+          color: #646c9a;
+          font-weight: 600;
+        }
         .dialog-action {
           display: flex;
           justify-content: center;

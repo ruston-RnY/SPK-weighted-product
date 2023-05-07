@@ -88,8 +88,14 @@ export class AppComponent {
 
   ngOnInit(): void {}
 
-  navigate(id: number) {
-    this.step = id;
+  navigate(step: number) {
+    if ((step == 4 || step == 5) && this.bobotPerKriteria.length < 1) {
+      this.messageDialog =
+        'Bobot kepentingan belum dihitung. Anda harus menentukan bobot kepentingan terlebih dahulu !!';
+      this.showDialog = true;
+    } else {
+      this.step = step;
+    }
   }
 
   tambahAlternatif() {
@@ -108,7 +114,7 @@ export class AppComponent {
 
           if (exist) {
             this.messageDialog =
-              'Kode alternatif sudah ada, silahkan input dengan kode lain!!';
+              'Kode alternatif sudah ada, silahkan input data dengan kode lain !!';
             this.showDialog = true;
           } else {
             this.alternatif.push(this.alternatifForm.value);
@@ -116,8 +122,14 @@ export class AppComponent {
         }
       }
 
+      // reset data variable
       this.alternatifForm.reset();
       this.isAlternatifEdit = false;
+      this.alternatifPerhitunganS = [];
+      this.alternatifPerhitunganV = [];
+      this.isShowRank = false;
+      this.rangking = [];
+      this.tempRank = [];
     }
   }
 
@@ -155,7 +167,7 @@ export class AppComponent {
 
           if (exist) {
             this.messageDialog =
-              'Kode kriteria sudah ada, silahkan input dengan kode lain!!';
+              'Kode kriteria sudah ada, silahkan input data dengan kode lain !!';
             this.showDialog = true;
           } else {
             this.kriteria.push(this.kriteriaForm.value);
@@ -163,6 +175,7 @@ export class AppComponent {
         }
       }
 
+      // reset data variable
       this.kriteriaForm.reset();
       this.isKriteriaEdit = false;
     }
@@ -194,6 +207,7 @@ export class AppComponent {
       .map((item: any) => item.bobotKriteria)
       .reduce((prev: any, curr: any) => prev + curr, 0);
 
+    // reset data variable
     this.bobotPerKriteria = [];
     this.alternatifPerKriteria = [];
   }
@@ -224,7 +238,7 @@ export class AppComponent {
       .map((item: any) => item.value)
       .reduce((prev: any, curr: any) => prev + curr, 0);
 
-    // buat form untuk alternatif/kriteria
+    // create form for alternatif/kriteria
     this.kriteria.forEach((alt: any) => {
       this.alternatifPerKriteriaForm.addControl(
         alt.kode,
@@ -279,7 +293,7 @@ export class AppComponent {
         );
 
         if (exist) {
-          this.messageDialog = 'Alternatif yang di pilih sudah dinilai!!';
+          this.messageDialog = 'Alternatif yang di pilih sudah dinilai !!';
           this.showDialog = true;
         } else {
           const dataObj = {
