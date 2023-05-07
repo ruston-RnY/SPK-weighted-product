@@ -10,7 +10,27 @@ body {
   padding: 0;
 }
 
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+body::-webkit-scrollbar-track {
+  background: rgba(99, 99, 99, 0.63);
+  // background: transparent;
+}
+
+/* Handle */
+body::-webkit-scrollbar-thumb {
+  background: #012179;
+  border-radius: 4px;
+}
+
 // utils
+.mt-auto {
+  margin-top: auto;
+}
+
 .mt-3 {
   margin-top: 8px;
 }
@@ -96,7 +116,6 @@ h5 {
   background-position: center;
   background-size: auto;
   background-repeat: no-repeat;
-  // background-position-y: 50px;
   min-height: 100vh;
   position: fixed;
   left: 0;
@@ -106,16 +125,9 @@ h5 {
 }
 
 main {
-  position: relative;
-  padding: 0 3%;
-
-  @media (min-width: 1536px) {
-    padding: 0 10% !important;
-  }
-
-  @media (min-width: 1280px) {
-    padding: 0 8%;
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 
   .primary-color {
     color: #212c5f;
@@ -259,10 +271,6 @@ main {
   }
 
   .footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: #212c5f;
     padding: 8px;
     color: #ffff;
@@ -280,7 +288,7 @@ main {
   }
 
   .main-content {
-    padding: 3.5rem 0;
+    padding: 3.5rem 3%;
 
     .navigation {
       display: flex;

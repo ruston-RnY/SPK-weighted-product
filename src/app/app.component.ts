@@ -53,13 +53,12 @@ export class AppComponent {
 
   public totalKriteria: number = 0;
   public totalBobotKepentingan: number = 0;
-  public isClicked: boolean = false;
   public isShowRank: boolean = false;
   private tempRank: any = [];
   public alternatifSelected: any;
   public step: any = 1;
   public typeInput: any;
-  public today = new Date();
+
   public isAlternatifEdit: boolean = false;
   public isKriteriaEdit: boolean = false;
   private alternatifEditSelected: any;
@@ -134,7 +133,6 @@ export class AppComponent {
     this.alternatif = this.alternatif.filter(
       (item: any, i: number) => i != idx
     );
-    this.isClicked = false;
   }
 
   tambahKriteria() {
@@ -167,7 +165,7 @@ export class AppComponent {
       .reduce((prev: any, curr: any) => prev + curr, 0);
 
     this.bobotPerKriteria = [];
-    this.isClicked = false;
+    this.alternatifPerKriteria = [];
   }
 
   editKriteria(idx: number) {
@@ -190,7 +188,7 @@ export class AppComponent {
       .reduce((prev: any, curr: any) => prev + curr, 0);
 
     this.bobotPerKriteria = [];
-    this.isClicked = false;
+    this.alternatifPerKriteria = [];
   }
 
   hitungBobotKepentingan() {
@@ -218,10 +216,6 @@ export class AppComponent {
     this.totalBobotKepentingan = this.bobotPerKriteria
       .map((item: any) => item.value)
       .reduce((prev: any, curr: any) => prev + curr, 0);
-
-    if (this.alternatif.length > 0 && this.kriteria.length > 0) {
-      this.isClicked = true;
-    }
 
     // buat form untuk alternatif/kriteria
     this.kriteria.forEach((alt: any) => {
@@ -290,6 +284,7 @@ export class AppComponent {
         }
       }
     }
+
     this.alternatifPerKriteriaForm.reset();
   }
 

@@ -1,13 +1,7 @@
 <main>
   <div class="main"></div>
-  <div class="navbar">
-    <div class="nav-title">
-      <p class="text">
-        Sistem Perhitungan SPK Weighted Product -
-        {{ today | date : "d MMM yyyy, h:mm a" }}
-      </p>
-    </div>
-  </div>
+  <app-header></app-header>
+
   <section class="main-content">
     <div class="title">
       Perhitungan SPK Menggunakan Metode Weighted Product (WP)
@@ -572,7 +566,5 @@
     </div>
   </section>
 
-  <div class="footer text-center">
-    &copy; Copyright 2023 - All Right Reserved
-  </div>
+  <app-footer class="mt-auto"></app-footer>
 </main>
