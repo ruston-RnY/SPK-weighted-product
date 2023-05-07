@@ -1,0 +1,22 @@
+<div class="dialog-warning">
+  <div class="dialog-container">
+    <div class="dialog-title">
+      <img
+        src="assets/image/close.png"
+        alt="icon close"
+        (click)="onCloseDialog()"
+      />
+    </div>
+    <div class="dialog-content">
+      <p>
+        {{ messageDialog }}
+      </p>
+
+      <div class="dialog-action">
+        <button type="button" class="btn btn-warn" (click)="onCloseDialog()">
+          Saya Mengerti
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -568,3 +568,9 @@
 
   <app-footer class="mt-auto"></app-footer>
 </main>
+
+<app-dialog-warning
+  *ngIf="showDialog"
+  [messageDialog]="messageDialog"
+  (closeDialog)="closeDialog()"
+></app-dialog-warning>

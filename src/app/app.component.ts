@@ -64,6 +64,9 @@ export class AppComponent {
   private alternatifEditSelected: any;
   private kriteriaEditSelected: any;
 
+  public showDialog: boolean = false;
+  public messageDialog!: string;
+
   constructor(private fb: FormBuilder) {
     this.alternatifForm = this.fb.group({
       kode: ['', Validators.required],
@@ -104,7 +107,9 @@ export class AppComponent {
           );
 
           if (exist) {
-            alert('Kode alternatif sudah ada');
+            this.messageDialog =
+              'Kode alternatif sudah ada, silahkan input dengan kode lain!!';
+            this.showDialog = true;
           } else {
             this.alternatif.push(this.alternatifForm.value);
           }
@@ -149,7 +154,9 @@ export class AppComponent {
           );
 
           if (exist) {
-            alert('Kode kriteria sudah ada');
+            this.messageDialog =
+              'Kode kriteria sudah ada, silahkan input dengan kode lain!!';
+            this.showDialog = true;
           } else {
             this.kriteria.push(this.kriteriaForm.value);
           }
@@ -272,7 +279,8 @@ export class AppComponent {
         );
 
         if (exist) {
-          alert('alternatif yang di pilih sudah ada');
+          this.messageDialog = 'Alternatif yang di pilih sudah dinilai!!';
+          this.showDialog = true;
         } else {
           const dataObj = {
             kodeAlternatif: this.alternatifPerKriteriaForm.value.kodeAlternatif,
@@ -355,5 +363,9 @@ export class AppComponent {
 
   hitungUlang() {
     window.location.reload();
+  }
+
+  closeDialog() {
+    this.showDialog = false;
   }
 }
