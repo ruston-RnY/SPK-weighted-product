@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { filter, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -66,6 +67,7 @@ export class AppComponent {
 
   public showDialog: boolean = false;
   public messageDialog!: string;
+  private refreshWarn = false;
 
   constructor(private fb: FormBuilder) {
     this.alternatifForm = this.fb.group({
@@ -86,7 +88,9 @@ export class AppComponent {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.alertBrowserRefresh();
+  }
 
   navigate(step: number) {
     if ((step == 4 || step == 5) && this.bobotPerKriteria.length < 1) {
@@ -100,6 +104,8 @@ export class AppComponent {
 
   tambahAlternatif() {
     this.alternatifForm.markAllAsTouched();
+    this.refreshWarn = true;
+
     if (this.alternatifForm.valid) {
       if (this.isAlternatifEdit) {
         this.alternatif[this.alternatifEditSelected] =
@@ -381,5 +387,15 @@ export class AppComponent {
 
   closeDialog() {
     this.showDialog = false;
+  }
+
+  private alertBrowserRefresh() {
+    fromEvent(window, 'beforeunload')
+      .pipe(filter(() => this.refreshWarn))
+      .subscribe((e) => {
+        const message = 'You may lose your data if you refresh now';
+        (e || window.event).returnValue = !!message;
+        return message;
+      });
   }
 }
