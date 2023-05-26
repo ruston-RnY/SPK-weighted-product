@@ -111,6 +111,10 @@ h5 {
   border: 1px solid #df1a1a;
 }
 
+.one-clicked {
+  pointer-events: none;
+}
+
 .main {
   background-image: url(assets/image/bg.jpg);
   background-position: center;

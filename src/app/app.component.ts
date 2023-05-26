@@ -68,6 +68,7 @@ export class AppComponent {
   public showDialog: boolean = false;
   public messageDialog!: string;
   private refreshWarn = false;
+  public isHitungNilaiSdanV: boolean = false;
 
   constructor(private fb: FormBuilder) {
     this.alternatifForm = this.fb.group({
@@ -136,6 +137,10 @@ export class AppComponent {
       this.isShowRank = false;
       this.rangking = [];
       this.tempRank = [];
+      this.totalPerhitunganS = 0;
+      this.totalPerhitunganV = 0;
+      this.alternatifPerhitunganS = [];
+      this.alternatifPerhitunganV = [];
     }
   }
 
@@ -153,9 +158,17 @@ export class AppComponent {
   }
 
   hapusAlternatif(idx: number) {
+    this.alternatifPerKriteria = this.alternatifPerKriteria.filter(
+      (item: any) => item.kodeAlternatif != this.alternatif[idx].kode
+    );
+
     this.alternatif = this.alternatif.filter(
       (item: any, i: number) => i != idx
     );
+
+    // reset data perhitungan akhir
+    this.totalPerhitunganS = 0;
+    this.totalPerhitunganV = 0;
   }
 
   tambahKriteria() {
@@ -236,6 +249,9 @@ export class AppComponent {
 
         arr.push(obj);
       });
+    } else {
+      this.messageDialog = 'Data Alternatif dan Data kriteria masih kosong !!';
+      this.showDialog = true;
     }
 
     this.bobotPerKriteria = arr;
@@ -311,70 +327,85 @@ export class AppComponent {
           this.alternatifPerKriteria.push(dataObj);
         }
       }
+
+      this.isHitungNilaiSdanV = false;
     }
 
     this.alternatifPerKriteriaForm.reset();
+    this.totalPerhitunganS = 0;
+    this.totalPerhitunganV = 0;
+    this.alternatifPerhitunganS = [];
+    this.alternatifPerhitunganV = [];
   }
 
   hitungNilaiSdanV() {
-    const arrNilaiS: any = [];
-    let totalNilaiS = 0;
-    const arrNilaiV: any = [];
-    let totalNilaiV = 0;
+    if (this.alternatif.length != this.alternatifPerKriteria.length) {
+      this.messageDialog = 'Data Alternatif masih ada yang belum dinilai!!';
+      this.showDialog = true;
+    } else {
+      this.isHitungNilaiSdanV = true;
 
-    for (
-      var outerIndex = 0;
-      outerIndex < this.alternatifPerKriteria.length;
-      outerIndex++
-    ) {
-      let value = 1;
-      this.alternatifPerKriteria[outerIndex].kriteria.forEach((item: any) => {
-        value *= Math.pow(
-          item.kriteriaAlternatifValue,
-          item.kriteriaAlternatifPangkat
-        );
-      });
-      const obj = {
-        kodeAlternatif: this.alternatifPerKriteria[outerIndex].kodeAlternatif,
-        namaAlternatif: this.alternatifPerKriteria[outerIndex].alternatif,
-        nilaiS: Math.round(value * 100) / 100,
-      };
+      const arrNilaiS: any = [];
+      let totalNilaiS = 0;
+      const arrNilaiV: any = [];
+      let totalNilaiV = 0;
 
-      arrNilaiS.push(obj);
+      for (
+        var outerIndex = 0;
+        outerIndex < this.alternatifPerKriteria.length;
+        outerIndex++
+      ) {
+        let value = 1;
+        this.alternatifPerKriteria[outerIndex].kriteria.forEach((item: any) => {
+          value *= Math.pow(
+            item.kriteriaAlternatifValue,
+            item.kriteriaAlternatifPangkat
+          );
+        });
+        const obj = {
+          kodeAlternatif: this.alternatifPerKriteria[outerIndex].kodeAlternatif,
+          namaAlternatif: this.alternatifPerKriteria[outerIndex].alternatif,
+          nilaiS: Math.round(value * 100) / 100,
+        };
+
+        arrNilaiS.push(obj);
+      }
+
+      totalNilaiS =
+        Math.round(
+          arrNilaiS
+            .map((item: any) => item.nilaiS)
+            .reduce((prev: any, curr: any) => prev + curr, 0) * 100
+        ) / 100;
+
+      for (let index = 0; index < arrNilaiS.length; index++) {
+        const element = arrNilaiS[index];
+        const valueV = element.nilaiS / totalNilaiS;
+
+        const tes = Math.round(valueV * 100) / 100;
+
+        const obj = {
+          kodeAlternatif: element.kodeAlternatif,
+          namaAlternatif: element.namaAlternatif,
+          nilaiV: Math.round(valueV * 100) / 100,
+        };
+        arrNilaiV.push(obj);
+        this.tempRank.push(obj);
+      }
+
+      totalNilaiV =
+        Math.round(
+          arrNilaiV
+            .map((item: any) => item.nilaiV)
+            .reduce((prev: any, curr: any) => prev + curr, 0) * 100
+        ) / 100;
+
+      this.alternatifPerhitunganS = arrNilaiS;
+      this.totalPerhitunganS = totalNilaiS;
+      this.alternatifPerhitunganV = arrNilaiV;
+      this.totalPerhitunganV = totalNilaiV;
+      this.isShowRank = true;
     }
-
-    totalNilaiS =
-      Math.round(
-        arrNilaiS
-          .map((item: any) => item.nilaiS)
-          .reduce((prev: any, curr: any) => prev + curr, 0) * 100
-      ) / 100;
-
-    for (let index = 0; index < arrNilaiS.length; index++) {
-      const element = arrNilaiS[index];
-      const valueV = element.nilaiS / totalNilaiS;
-
-      const obj = {
-        kodeAlternatif: element.kodeAlternatif,
-        namaAlternatif: element.namaAlternatif,
-        nilaiV: Math.round(valueV * 100) / 100,
-      };
-      arrNilaiV.push(obj);
-      this.tempRank.push(obj);
-    }
-
-    totalNilaiV =
-      Math.round(
-        arrNilaiV
-          .map((item: any) => item.nilaiV)
-          .reduce((prev: any, curr: any) => prev + curr, 0) * 100
-      ) / 100;
-
-    this.alternatifPerhitunganS = arrNilaiS;
-    this.totalPerhitunganS = totalNilaiS;
-    this.alternatifPerhitunganV = arrNilaiV;
-    this.totalPerhitunganV = totalNilaiV;
-    this.isShowRank = true;
   }
 
   lihatRangking() {
